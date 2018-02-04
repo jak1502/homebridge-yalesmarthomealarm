@@ -5,7 +5,7 @@ const { getSessionCookie, getStatus, setStatus } = require('yalealarmsystem');
 module.exports = function(homebridge){
 	Service = homebridge.hap.Service;
 	Characteristic = homebridge.hap.Characteristic;
-	homebridge.registerAccessory("homebridge-YaleSmartHomeAlarm", "YaleAlarmSystem", YaleAlarmSystem);
+	homebridge.registerAccessory("homebridge-YaleAlarm", "YaleAlarmSystem", YaleAlarmSystem);
 };
 
 

@@ -1,0 +1,27 @@
+{
+  "name": "homebridge-yalealarm",
+  "version": "0.0.1",
+  "description": "Homebridge plugin for the Yale Smart Home Alarm System",
+  "main": "index.js",
+  "license": "GNU",
+  "keywords": [
+    "homebridge-plugin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jak1502/homebridge-yalesmarthomealarm.git"
+  },
+  "author": "Jack Mellor",
+  "bugs": {
+    "url": "https://github.com/jak1502/homebridge-yalesmarthomealarm/issues"
+  },
+  "homepage": "https://github.com/jak1502/homebridge-yalesmarthomealarm#readme",
+  "engines": {
+    "node": ">=0.12.0",
+    "homebridge": ">=0.2.0"
+  },
+  "dependencies": {
+    "yalealarmsystem": "^1.0.1",
+    "polling-to-event": "^2.0.2"
+  }
+}

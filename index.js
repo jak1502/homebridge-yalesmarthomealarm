@@ -130,7 +130,8 @@ YaleAlarmSystem.prototype.setTargetState = function(state, callback) {
    getServices(access_token);
 	 getStatus(access_token);
  }).then((alarmState) => {
-         switch (alarmState) {
+console.log(alarmState);
+				 switch (alarmState) {
  	        case "disarm":
  				state = 3;
  				break;

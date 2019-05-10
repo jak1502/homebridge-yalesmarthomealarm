@@ -1,6 +1,6 @@
 var Service, Characteristic;
 var pollingtoevent = require("polling-to-event");
-const { getAccessToken, getServices, getStatus, setStatus } = require('yalealarmsystem');
+const { getAccessToken, getStatus, setStatus } = require('yalealarmsystem');
 
 module.exports = function(homebridge){
 	Service = homebridge.hap.Service;
@@ -107,7 +107,6 @@ YaleAlarmSystem.prototype.setTargetState = function(state, callback) {
         this.config.username,
         this.config.password
     ).then((accessToken) => {
-				getServices(accessToken);
 				setStatus(accessToken, alarmState).then(setStatus => {
 					this.log("Status set: %s",setStatus);
 				});
@@ -129,7 +128,6 @@ YaleAlarmSystem.prototype.setTargetState = function(state, callback) {
         this.config.username,
         this.config.password
     ).then(access_token => {
-  		getServices(access_token);
   		getStatus(access_token).then(alarmState => {
 					switch (alarmState) {
  	        	case "disarm":

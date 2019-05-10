@@ -123,21 +123,25 @@ YaleAlarmSystem.prototype.setTargetState = function(state, callback) {
  YaleAlarmSystem.prototype.getCurrentState = function(callback) {
  	var self = this;
  	this.debugLog("Getting current state");
-	getAccessToken('jackmellor@me.com', 'Jme110r1').then(access_token => {
-  getServices(access_token);
-  getStatus(access_token).then(alarmState => {
-				 switch (alarmState) {
- 	        case "disarm":
- 				state = 3;
- 				break;
- 			case "arm":
- 				state = 1;
- 				break;
- 			case "home":
- 				state = 0;
- 				break;
+	getAccessToken(
+        this.config.username,
+        this.config.password
+    ).then(access_token => {
+  		getServices(access_token);
+  		getStatus(access_token).then(alarmState => {
+					console.log(alarmState);
+					switch (alarmState) {
+ 	        	case "disarm":
+ 							state = 3;
+ 							break;
+ 						case "arm":
+ 							state = 1;
+ 							break;
+ 						case "home":
+ 							state = 0;
+ 							break;
          }
-         self.debugLog("Response: %s",response.message[0].mode);
+         //self.debugLog("Response: %s",response.message[0].mode);
          callback(null,state);
      }).catch(console.log);
 	 });

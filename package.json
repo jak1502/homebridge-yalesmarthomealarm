@@ -21,7 +21,7 @@
     "homebridge": ">=0.2.0"
   },
   "dependencies": {
-    "yalealarmsystem": "^jak1502/yalealarmsystem#master",
+    "yalealarmsystem": "jak1502/yalealarmsystem#master",
     "polling-to-event": "^2.0.2"
   }
 }

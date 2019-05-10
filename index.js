@@ -25,7 +25,7 @@ function YaleAlarmSystem(log, config) {
 
 	// the service
 	self.securityService = null;
-	
+
 	// polling settings
 	self.polling = config.polling || true;
 	self.pollInterval = config.pollInterval || 30000;
@@ -36,7 +36,7 @@ function YaleAlarmSystem(log, config) {
 	// cached values
 	self.previousCurrentState = null;
 	self.previousTargetState = null;
-	
+
 	// initialize
 	self.init();
 
@@ -44,7 +44,7 @@ function YaleAlarmSystem(log, config) {
 
 YaleAlarmSystem.prototype.init = function() {
 	var self = this;
-      
+
 	// set up polling if requested
 	if (self.polling) {
 		self.log("Starting polling with an interval of %s ms", self.pollInterval);
@@ -102,14 +102,15 @@ YaleAlarmSystem.prototype.setTargetState = function(state, callback) {
 				break;
         }
 	this.log("Setting state to %s", alarmState);
-	
-	getSessionCookie(
-        this.config.username, 
+
+	getAccessToken(
+        this.config.username,
         this.config.password
-    ).then((sessionCookie) => {
-        setStatus(sessionCookie, alarmState);
+    ).then((accessToken) => {
+				getServices(accessToken);
+				setStatus(accessToken, alarmState);
         callback(null);
-	    
+
     }).catch(console.log);
 };
 
@@ -119,28 +120,29 @@ YaleAlarmSystem.prototype.setTargetState = function(state, callback) {
  *
  * @param {Function} callback The method to call with the results
  */
-YaleAlarmSystem.prototype.getCurrentState = function(callback) {
-	var self = this;
-	this.debugLog("Getting current state");
-	getSessionCookie(
-       this.config.username, 
-        this.config.password
-	).then(getStatus).then((response) => {
-        switch (response.message[0].mode) {
-	        case "disarm":
-				state = 3;
-				break;
-			case "arm":
-				state = 1;
-				break;
-			case "home":
-				state = 0;
-				break;
-        }
-        self.debugLog("Response: %s",response.message[0].mode);
-        callback(null,state);
-    }).catch(console.log);
-};
+ YaleAlarmSystem.prototype.getCurrentState = function(callback) {
+ 	var self = this;
+ 	this.debugLog("Getting current state");
+ 	getAccessToken(
+        this.config.username,
+         this.config.password
+ 	).then(access_token => {
+   getServices(access_token)}.then(getStatus).then((alarmState) => {
+         switch (alarmState) {
+ 	        case "disarm":
+ 				state = 3;
+ 				break;
+ 			case "arm":
+ 				state = 1;
+ 				break;
+ 			case "home":
+ 				state = 0;
+ 				break;
+         }
+         self.debugLog("Response: %s",response.message[0].mode);
+         callback(null,state);
+     }).catch(console.log);
+ };
 
 /**
  * Identifies the security device (?)
@@ -168,7 +170,7 @@ YaleAlarmSystem.prototype.getServices =  function() {
 		.getCharacteristic(Characteristic.SecuritySystemTargetState)
 		.on("get", this.getCurrentState.bind(this))
 		.on("set", this.setTargetState.bind(this));
-		
+
 	this.infoService = new Service.AccessoryInformation();
     this.infoService
       .setCharacteristic(Characteristic.Manufacturer, "Opensource Community")

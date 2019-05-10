@@ -108,7 +108,9 @@ YaleAlarmSystem.prototype.setTargetState = function(state, callback) {
         this.config.password
     ).then((accessToken) => {
 				getServices(accessToken);
-				setStatus(accessToken, alarmState);
+				setStatus(accessToken, alarmState).then(setStatus => {
+					this.log("Status set: %s",setStatus);
+				});
         callback(null);
 
     }).catch(console.log);
@@ -141,7 +143,6 @@ YaleAlarmSystem.prototype.setTargetState = function(state, callback) {
  							state = 0;
  							break;
          }
-         //self.debugLog("Response: %s",response.message[0].mode);
          callback(null,state);
      }).catch(console.log);
 	 });

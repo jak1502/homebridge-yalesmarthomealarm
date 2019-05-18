@@ -5,12 +5,12 @@
         "port": 51826,
         "pin": "031-45-152"
     },
-    
+
     "description": "This is an example configuration file with Yale Alarm setup",
 
     "accessories": [
         {
-            "accessory": "YaleAlarm",
+            "accessory": "YaleAlarmSystem",
             "name": "Yale Alarm",
             "username": "username",
             "password": "password",

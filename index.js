@@ -1,6 +1,6 @@
 var Service, Characteristic;
 var pollingtoevent = require("polling-to-event");
-const { getAccessToken, getStatus, setStatus } = require('yalealarmsystem');
+const { getSessionCookie, getStatus, setStatus } = require('yalealarmsystem');
 
 module.exports = function(homebridge){
 	Service = homebridge.hap.Service;
@@ -29,6 +29,12 @@ function YaleAlarmSystem(log, config) {
 	// polling settings
 	self.polling = config.polling || true;
 	self.pollInterval = config.pollInterval || 30000;
+
+	//Check to make sure the pollInterval isnt too short
+	if (self.pollInterval < 5000) {
+		self.log("Polling interval is too short, has been changed to 5000ms");
+		self.pollInterval = 5000;
+	}
 
 	// debug flag
 	self.debug = config.debug || false;
@@ -88,7 +94,7 @@ YaleAlarmSystem.prototype.debugLog = function () {
 YaleAlarmSystem.prototype.setTargetState = function(state, callback) {
 	var self = this;
 	switch (state) {
-	        case 3:
+	    case 3:
 				alarmState = "disarm";
 				break;
 			case 1:
@@ -103,16 +109,22 @@ YaleAlarmSystem.prototype.setTargetState = function(state, callback) {
         }
 	this.log("Setting state to %s", alarmState);
 
-	getAccessToken(
+	getSessionCookie(
         this.config.username,
         this.config.password
     ).then((accessToken) => {
 				setStatus(accessToken, alarmState).then(setStatus => {
-					this.log("Status set: %s",setStatus);
+					if (setStatus === 'Error') {
+						this.log("Status changed failed, please try again");
+					} else {
+						this.log("Status set: %s",setStatus);
+						self.securityService
+							.getCharacteristic(Characteristic.SecuritySystemCurrentState)
+							.setValue(state);
+					}
 				});
         callback(null);
-
-    }).catch(console.log);
+    }).catch(self.log);
 };
 
 //
@@ -124,11 +136,10 @@ YaleAlarmSystem.prototype.setTargetState = function(state, callback) {
  YaleAlarmSystem.prototype.getCurrentState = function(callback) {
  	var self = this;
  	this.debugLog("Getting current state");
-	getAccessToken(
+	getSessionCookie(
         this.config.username,
         this.config.password
-    ).then(access_token => {
-  		getStatus(access_token).then(alarmState => {
+    ).then(getStatus).then(alarmState => {
 					switch (alarmState) {
  	        	case "disarm":
  							state = 3;
@@ -141,8 +152,7 @@ YaleAlarmSystem.prototype.setTargetState = function(state, callback) {
  							break;
          }
          callback(null,state);
-     }).catch(console.log);
-	 });
+     }).catch(self.log);
  };
 
 /**

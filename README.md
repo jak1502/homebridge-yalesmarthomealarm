@@ -5,7 +5,7 @@ The main function of the Homebridge plugin is to proxy HomeKit queries to the AP
 ## Installation
 
 1. Install homebridge using: npm install -g homebridge
-1. Install homebridge-yalesmarthomealarm using: npm install -g homebridge-yalealarmsystem
+1. Install homebridge-yalesmarthomealarm using: npm install -g homebridge-yalesmarthomealarm
 1. Update your configuration file. See sample-config.json in this repository for a sample.
 
 ## Configuration
@@ -22,7 +22,13 @@ The module simply requires you to specify the username and password you use to a
     }
 ]
 ```
+By default the plugin will check for status updates every 30 seconds; this can be modified, along with a debug mode by putting the following in your config file. Note the pollInterval is in milliseconds, the minimum you can set is 5000 (5 seconds).
 
+```
+"polling": true,
+"pollInterval": 30000,
+"debug": false
+```
 ## License
 
 Copyright 2019 Jack Mellor

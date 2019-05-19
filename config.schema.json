@@ -1,0 +1,44 @@
+{
+  "pluginAlias": "Yale Smart Alarm",
+  "pluginType": "accessory",
+  "singular": false,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "title": "Name",
+        "type": "string",
+        "required": true
+      },
+      "username": {
+        "title": "Username",
+        "type": "string",
+        "required": true,
+        "format": "email"
+      },
+      "password": {
+        "title": "Password",
+        "type": "string",
+        "required": true
+      },
+      "polling": {
+        "title": "Poll Status",
+        "type": "boolean",
+        "default": true
+      },
+      "pollInterval": {
+        "title": "Poll Interval (in ms)",
+        "type": "integer",
+        "default": 30000,
+        "minimum": 5000
+      },
+      "debug": {
+        "title": "Debug mode",
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+  "form": null,
+  "display": null
+}

@@ -1,6 +1,6 @@
 {
   "name": "homebridge-yalesmarthomealarm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Homebridge plugin for the Yale Smart Home Alarm System",
   "main": "index.js",
   "license": "MIT",

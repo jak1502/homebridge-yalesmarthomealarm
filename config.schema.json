@@ -1,5 +1,5 @@
 {
-  "pluginAlias": "Yale Smart Alarm",
+  "pluginAlias": "YaleAlarmSystem",
   "pluginType": "accessory",
   "singular": true,
   "schema": {

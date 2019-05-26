@@ -1,6 +1,6 @@
 var Service, Characteristic;
 var pollingtoevent = require("polling-to-event");
-const { getSessionCookie, getStatus, setStatus } = require('yalealarmsystem');
+const { getSessionCookie, getStatus, setStatus } = require('yalealarm');
 
 module.exports = function(homebridge){
 	Service = homebridge.hap.Service;

@@ -1,6 +1,6 @@
 {
   "name": "homebridge-yalesmarthomealarm",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Homebridge plugin for the Yale Smart Home Alarm System",
   "main": "index.js",
   "license": "MIT",
@@ -21,7 +21,7 @@
     "homebridge": ">=0.2.0"
   },
   "dependencies": {
-    "yalealarmsystem": "jak1502/yalealarmsystem#master",
+    "yalealarm": "^1.0.0",
     "polling-to-event": "^2.0.2"
   }
 }
